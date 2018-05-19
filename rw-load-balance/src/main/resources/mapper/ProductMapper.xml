@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ProductMapper">
+    <resultMap id="dataMap" type="com.example.demo.entity.Product">
+        <id column="id" property="id" jdbcType="NUMERIC"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="column">
+        id, name, price
+    </sql>
+
+    <select id="list" resultMap="dataMap">
+        SELECT
+        <include refid="column"/>
+        FROM product
+    </select>
+
+    <select id="get" parameterType="java.lang.Long" resultMap="dataMap">
+        SELECT
+        <include refid="column"/>
+        FROM product
+        WHERE id = #{id}
+    </select>
+
+    <insert id="add" parameterType="com.example.demo.entity.Product">
+        INSERT INTO
+        product
+        (name,price)
+        VALUES
+        (#{name}, #{price})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.Product">
+        UPDATE
+        product
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="price != null">price = #{price}</if>
+        id = #{id}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM
+        pruduct
+        WHERE
+        id =#{id}
+    </delete>
+
+</mapper>
